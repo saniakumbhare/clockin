@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .modal-body {
+            padding: 10px 0;
+        }
+
+        .modal-body label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .modal-body input[type="text"],
+        .modal-body select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            padding-top: 10px;
+            text-align: right;
+        }
+
+        .modal-footer button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-footer button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Employee Clock Times</h2>
+        <button onclick="openProjectModal()" style="float: right; margin-bottom: 10px;">Create New Project</button>
+        <button onclick="openAddEmployeeModal()" style="float: right; margin-right: 10px; margin-bottom: 10px;">Add Employee</button>
+        <table id="clockTimesTable">
+            <thead>
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Day</th>
+                    <th>Clock In</th>
+                    <th>Clock Out</th>
+                    <th>Total Hours</th>
+                </tr>
+            </thead>
+            <tbody id="clockTimesBody">
+                <!-- Table rows will be dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for creating a new project -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeProjectModal()">&times;</span>
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+            </div>
+            <div class="modal-body">
+                <label for="projectName">Project Name:</label>
+                <input type="text" id="projectName" name="projectName" required>
+                
+                <label for="projectDates">Project Dates:</label>
+                <input type="date" id="projectDates" name="projectDates" required>
+                
+                <label for="projectCode">Project Code:</label>
+                <input type="text" id="projectCode" name="projectCode" required>
+                
+                <label for="projectType">Project Type:</label>
+                <select id="projectType" name="projectType" required>
+                    <option value="">Select Project Type</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile Development">Mobile Development</option>
+                    <option value="Data Analysis">Data Analysis</option>
+                    <option value="Design">Design</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveProject()">Save Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding a new employee -->
+    <div id="addEmployeeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddEmployeeModal()">&times;</span>
+            <div class="modal-header">
+                <h2>Add Employee</h2>
+            </div>
+            <div class="modal-body">
+                <label for="employeeId">Employee ID:</label>
+                <input type="text" id="employeeId" name="employeeId" required>
+                
+                <label for="employeeProjectCode">Project Code:</label>
+                <input type="text" id="employeeProjectCode" name="employeeProjectCode" required>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveEmployee()">Save Employee</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openProjectModal() {
+            document.getElementById('projectModal').style.display = 'block';
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        function openAddEmployeeModal() {
+            document.getElementById('addEmployeeModal').style.display = 'block';
+        }
+
+        function closeAddEmployeeModal() {
+            document.getElementById('addEmployeeModal').style.display = 'none';
+        }
+
+        function saveProject() {
+            const projectName = document.getElementById('projectName').value;
+            const projectDates = document.getElementById('projectDates').value;
+            const projectCode = document.getElementById('projectCode').value;
+            const projectType = document.getElementById('projectType').value;
+
+            // Example: Save project data to localStorage or send to backend API
+            console.log('Project Name:', projectName);
+            console.log('Project Dates:', projectDates);
+            console.log('Project Code:', projectCode);
+            console.log('Project Type:', projectType);
+
+            // Close modal after saving (you can add further logic here)
+            closeProjectModal();
+        }
+
+        function saveEmployee() {
+            const employeeId = document.getElementById('employeeId').value;
+            const employeeProjectCode = document.getElementById('employeeProjectCode').value;
+
+            // Example: Save employee data to localStorage or send to backend API
+            console.log('Employee ID:', employeeId);
+            console.log('Employee Project Code:', employeeProjectCode);
+
+            // Close modal after saving (you can add further logic here)
+            closeAddEmployeeModal();
+        }
+    </script>
+</body>
+</html>

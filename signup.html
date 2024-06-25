@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        form input[type="text"],
+        form input[type="name"],
+        form input[type="password"],
+        form input[type="email"], 
+        form input[type="number"], /* Assuming "employee id" is a number input type */
+        form input[type="submit"],
+        form textarea,
+        form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        form input[type="submit"] {
+            background-color: #1976d2;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #1565c0;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .success {
+            color: green;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Link styling */
+        a {
+            color: #1976d2;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h2>CLockedIn</h2>
+    
+    <form id="registerForm">
+        <h3>Sign Up</h3>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="employeeId">Employee ID:</label><br>
+        <input type="text" id="employeeId" name="employeeId" required><br>
+        <label for="role">Role:</label><br>
+        <select id="role" name="role">
+            <option value="employee">Employee</option>
+            <option value="manager">Manager</option>
+        </select><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Sign Up">
+        <p id="registerError" class="error"></p>
+        <p id="registerSuccess" class="success"></p>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
+
+    <script src="signup.js"></script>
+</body>
+</html>

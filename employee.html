@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Navigation links */
+        nav {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        nav a {
+            padding: 10px;
+            margin: 0 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>My Projects</h2>
+        <table id="myProjectsTable">
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Project Dates</th>
+                    <th>Project Code</th>
+                    <th>Project Type</th>
+                </tr>
+            </thead>
+            <tbody id="myProjectsBody">
+                <!-- Table rows will be dynamically populated -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Navigation links -->
+    <nav>
+        <a href="../Calendar/calendar.html">Timesheet</a>
+        
+    </nav>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Example data for My Projects (replace with actual data)
+            const myProjects = [
+                { name: 'Project A', dates: '2024-07-01 to 2024-07-15', code: 'PRJ001', type: 'Web Development' },
+                { name: 'Project B', dates: '2024-07-10 to 2024-07-30', code: 'PRJ002', type: 'Mobile App Development' },
+                // Add more projects as needed
+            ];
+
+            const myProjectsBody = document.getElementById('myProjectsBody');
+
+            // Populate table with My Projects data
+            myProjects.forEach(project => {
+                const { name, dates, code, type } = project;
+                const row = `
+                    <tr>
+                        <td>${name}</td>
+                        <td>${dates}</td>
+                        <td>${code}</td>
+                        <td>${type}</td>
+                    </tr>
+                `;
+                myProjectsBody.innerHTML += row;
+            });
+        });
+    </script>
+</body>
+</html>

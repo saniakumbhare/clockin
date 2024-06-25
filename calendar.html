@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week Calendar</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap');
+
+        :root {
+            --calendar-bg-color: #FFFFFF;
+            --calendar-font-color: #000000;
+            --calendar-border-color: #DADADA;
+            --calendar-date-hover-color: #E0E0E0;
+            --calendar-current-date-color: #F5F5F5;
+            --calendar-today-color: #03a9f4;
+            --calendar-border-radius: 16px;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: var(--calendar-font-color);
+        }
+
+        .week-calendar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: var(--calendar-bg-color);
+            border-radius: var(--calendar-border-radius);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar-month-label {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .clock-buttons {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .clock-buttons button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #2196f3;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .clock-buttons button:hover {
+            background-color: #1976d2;
+        }
+
+        .clock-times {
+            width: 100%;
+        }
+
+        #week-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        #week-table th,
+        #week-table td {
+            padding: 0;
+            border: 1px solid var(--calendar-border-color);
+            width: 14.28%; /* Ensures seven columns fit evenly across the table */
+            height: 0;
+            position: relative;
+        }
+
+        #week-table th:before,
+        #week-table td:before {
+            content: '';
+            display: block;
+            padding-top: 100%; /* Forces square aspect ratio */
+        }
+
+        #week-table th > div,
+        #week-table td > div {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: inherit;
+        }
+
+        #week-table th {
+            background-color: var(--calendar-current-date-color);
+        }
+
+        #week-table tbody tr.today {
+            background-color: var(--calendar-today-color);
+            color: white;
+        }
+
+        #week-table tbody tr.today td {
+            color: white;
+        }
+
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="week-calendar">
+        <div class="calendar-header">
+            <div class="calendar-month-label"></div>
+        </div>
+        <div class="clock-buttons">
+            <button id="clock-in">Clock In</button>
+            <button id="clock-out">Clock Out</button>
+        </div>
+        <div class="clock-times">
+            <table id="week-table">
+                <thead>
+                    <tr>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><div>Day</div></th>
+                        
+                    </tr>
+                    <tr>
+                        <th><div>Clock In</div></th>
+                        
+                    </tr>
+                    <tr>
+                        <th><div>Clock Out</div></th>
+                        
+                    </tr>
+                    <tr>
+                        <th><div>Total Hours</div></th>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="calendar.js"></script>
+</body>
+</html>
