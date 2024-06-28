@@ -37,3 +37,5 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     document.getElementById('role').value = 'employee';
     document.getElementById('password').value = '';
 });
+
+//hello im checking if it is connected
