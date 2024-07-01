@@ -10,10 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         getCurrentWeek: function () {
             const currentDate = new Date();
-            const firstDayOfWeek = currentDate.getDate() - currentDate.getDay();
+            const firstDayOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
             const daysOfWeek = [];
             for (let i = 0; i < 7; i++) {
-                daysOfWeek.push(new Date(currentDate.setDate(firstDayOfWeek + i)));
+                daysOfWeek.push(new Date(firstDayOfWeek));
+                firstDayOfWeek.setDate(firstDayOfWeek.getDate() + 1);
             }
             return daysOfWeek;
         },
@@ -58,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById(`clock-in-${weekDayIndex}`).textContent = timeFormatted;
                 this.updateTotalHours(weekDayIndex);
                 this.saveToLocalStorage();
+                this.sendClockTimeToServer(weekDayIndex, clockInTime, 'in');
             });
 
             clockOutButton.addEventListener("click", () => {
@@ -68,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById(`clock-out-${weekDayIndex}`).textContent = timeFormatted;
                 this.updateTotalHours(weekDayIndex);
                 this.saveToLocalStorage();
+                this.sendClockTimeToServer(weekDayIndex, clockOutTime, 'out');
             });
         },
         updateTotalHours: function (index) {
@@ -80,6 +83,26 @@ document.addEventListener("DOMContentLoaded", function() {
         saveToLocalStorage: function () {
             localStorage.setItem('clockTimes', JSON.stringify(this.clockTimes));
         },
+        sendClockTimeToServer: function (dayIndex, time, type) {
+            fetch('store_clock_time.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    dayIndex: dayIndex,
+                    time: time.toISOString(),
+                    type: type
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        },
         init: function () {
             this.displayMonth();
             this.displayWeek();
@@ -90,10 +113,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 this.clockTimes = storedClockTimes;
                 this.clockTimes.forEach((day, index) => {
                     if (day.clockIn) {
-                        document.getElementById(`clock-in-${index}`).textContent = day.clockIn.toLocaleTimeString();
+                        document.getElementById(`clock-in-${index}`).textContent = new Date(day.clockIn).toLocaleTimeString();
                     }
                     if (day.clockOut) {
-                        document.getElementById(`clock-out-${index}`).textContent = day.clockOut.toLocaleTimeString();
+                        document.getElementById(`clock-out-${index}`).textContent = new Date(day.clockOut).toLocaleTimeString();
                         this.updateTotalHours(index);
                     }
                 });
